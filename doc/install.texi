@@ -1,0 +1,456 @@
+
+You can get the most recent version of GNU Go ftp.gnu.org or a mirror
+(see @url{http://www.gnu.org/order/ftp.html} for a list).  You can read
+about newer versions and get other information at
+@url{http://www.gnu.org/software/gnugo/}. 
+
+@menu
+* GNU/Linux and Unix::          GNU Linux and Unix Installation
+* Configure Options::           Configure Options
+* Windows and MS-DOS::          Windows Installation
+* Macintosh::                   Macintosh Installation
+@end menu
+
+@node GNU/Linux and Unix, Configure Options, ,Installation
+@section GNU/Linux and Unix
+@cindex installation
+
+Untar the sources, change to the directory gnugo-3.8. Now do:
+
+@example
+   ./configure [OPTIONS]
+   make
+@end example
+
+Several configure options will be explained in the next section. You do not
+need to set these unless you are dissatisfied with GNU Go's performance or
+wish to vary the experimental options.
+
+As an example,
+
+@example
+   ./configure --enable-level=9 --enable-cosmic-gnugo
+@end example
+
+@noindent
+will make a binary in which the default level is 9, and the experimental
+``cosmic''' option is enabled. A list of all configure options can be
+obtained by running @command{./configure --help}. Further information
+about the experimental options can be found in the next section
+(@pxref{Configure Options}).
+
+After running configure and make, you have now made a binary called
+@file{interface/gnugo}. Now (running as root) type
+
+@example
+   make install
+@end example
+
+@noindent
+to install @file{gnugo} in @file{/usr/local/bin}.
+
+There are different methods of using GNU Go. You may run it from the
+command line by just typing:
+
+@example
+   gnugo
+@end example
+
+@noindent
+but it is nicer to run it using CGoban 1 (under X Window System), 
+Quarry, Jago (on any platform with a Java Runtime Environment) or other
+client programs offering a GUI.
+
+You can get the most recent version of CGoban 1 from 
+@url{http://sourceforge.net/projects/cgoban1/}. The earlier version
+1.12 is available from @url{http://www.igoweb.org/~wms/comp/cgoban/index.html}.
+The CGoban version number MUST be 1.9.1 at least or it won't work. CGoban 2
+will not work.
+
+@xref{CGoban}, for instructions on how to run GNU Go from Cgoban, or
+@xref{Other Clients}, for Jago or other clients.
+
+Quarry is available at @url{http://home.gna.org/quarry/}.
+
+@node Configure Options
+@section Configure Options
+
+There are three options which you should consider configuring,
+particularly if you are dissatisfied with GNU Go's performance.
+
+@menu
+* Ram Cache::                 Ram Cache
+* Default Level::             Default Level
+* Other Options::             Other Options
+@end menu
+
+@node Ram Cache
+@subsection Ram Cache
+
+By default, GNU Go makes a cache of about 8 Megabytes in RAM for its
+internal use. The cache is used to store intermediate results during
+its analysis of the position. More precisely the default cache size is
+350000 entries, which translates to 8.01 MB on typical 32 bit
+platforms and 10.68 MB on typical 64 bit platforms.
+
+Increasing the cache size will often give a modest speed improvement.
+If your system has lots of RAM, consider increasing the cache
+size. But if the cache is too large, swapping will occur,
+causing hard drive accesses and degrading performance. If
+your hard drive seems to be running excessively your cache
+may be too large. On GNU/Linux systems, you may detect swapping
+using the program 'top'. Use the 'f' command to toggle SWAP
+display.
+
+You may override the size of the default cache at compile time 
+by running one of:
+
+@example
+   ./configure --enable-cache-size=n
+@end example
+
+@noindent
+to set the cache size to @code{n} megabytes. For example
+
+@example
+   ./configure --enable-cache-size=32
+@end example
+
+@noindent
+creates a cache of size 32 megabytes. If you omit this, your default
+cache size will be 8-11 MB as discussed above. Setting cache size
+negative also gives the default size. You must recompile and reinstall
+GNU Go after reconfiguring it by running @command{make} and
+@command{make install}.
+
+You may override the compile-time defaults by running @file{gnugo}
+with the option @option{--cache-size n}, where @code{n} is the size in
+megabytes of the cache you want, and @option{--level} where n is the
+level desired.  We will discuss setting these parameters next in
+detail.
+
+@node Default Level
+@subsection Default Level
+
+GNU Go can play at different levels. Up to level 10 is
+supported. At level 10 GNU Go is much more accurate but takes
+an average of about 1.6 times longer to play than at level 8.
+
+The level can be set at run time using the @option{--level} option.
+If you don't set this, the default level will be used. You
+can set the default level with the configure option
+@option{--enable-level=n}. For example
+
+@example
+./configure --enable-level=9
+@end example
+
+@noindent
+sets the default level to 9. If you omit this parameter,
+the compiler sets the default level to 10. We recommend
+using level 10 unless you find it too slow. If you decide
+you want to change the default you may rerun configure
+and recompile the program.
+
+@node Other Options
+@subsection Other Options
+
+Anything new in the engine is generally tested as an experimental option
+which can be turned on or off at compile time or run time. Some
+``experimental'' options such as the break-in code are no longer
+experimental but are enabled by default.
+
+This section can be skipped unless you are interested in the
+experimental options.
+
+Moreover, some configure options were removed from the stable
+release. For example it is known that the owl extension code
+can cause crashes, so the configure option --enable-experimental-owl-ext
+was disabled for 3.8.
+
+The term ``default'' must be clarified, since there
+are really two sets of defaults at hand, runtime defaults
+specified in @file{config.h} and compile time default
+values for the runtime defaults, contained in @file{configure}
+(which is created by editing @file{configure.in} then running
+@command{autoconf}. For example we find in @file{config.h}
+
+@example
+/* Center oriented influence. Disabled by default. */
+#define COSMIC_GNUGO 0
+
+/* Break-in module. Enabled by default. */
+#define USE_BREAK_IN 1
+@end example
+
+This means that the experimental cosmic option, which causes
+GNU Go to play a center-oriented game (and makes the engine
+weaker) is disabled by default, but that the break-in module
+is used. These are defaults which are used when GNU Go is
+run without command line options. They can be overridden
+with the run time options:
+
+@example
+gnugo --cosmic-gnugo --without-break-in
+@end example
+
+Alternatively you can configure GNU Go as follows:
+
+@example
+./configure --enable-cosmic-gnugo --disable-experimental-break-in
+@end example
+
+then recompile GNU Go. This changes the defaults in @file{config.h},
+so that you do not have to pass any command line options to GNU Go
+at run time to get the experimental owl extension turned on and
+the experimental break-in code turned off.
+
+If you want to find out what experimental options were compiled into your GNU
+Go binary you can run @command{gnugo --options} to find out. Here is a list
+of experimental options in GNU Go.
+
+@itemize @bullet
+@item @code{experimental-break-in}. Experimental break-in code
+(@pxref{Break Ins}). You should not need to configure this because
+the break in code is enabled by default in level 10, and is turned
+off at level 9. If you don't want the breakin code just play at
+level 9.
+@item @code{cosmic-gnugo}. An experimental style which plays a center
+oriented game and has a good winning rate against standard GNU Go,
+though it makes GNU Go weaker against other opponents.
+@item @code{large-scale}. Attempt to make large-scale captures.
+See:
+
+@url{http://lists.gnu.org/archive/html/gnugo-devel/2003-07/msg00209.html}
+
+for the philosophy of this option. This option makes the engine slower.
+@item @code{metamachine}. Enables the metamachine, which allows
+you to run the engine in an experimental mode whereby it forks
+a new @code{gnugo} process which acts as an ``oracle.'' Has no
+effect unless combined with the @option{--metamachine} run-time
+option.
+@end itemize
+
+Other options are not experimental, and can be changed as
+configure or runtime options.
+
+@itemize @bullet
+@item @code{chinese-rules} Use Chinese (area) counting.
+@item @code{resignation-allowed} Allow GNU Go to resign games.
+This is on by default.
+@end itemize
+
+@node Windows and MS-DOS, Macintosh, Configure Options, Installation
+@section Compiling GNU Go on Microsoft platforms
+
+@subsection Building with older visual studio
+
+The distribution directories contain some .dsp and .dsw files with
+GNU Go. These have been brought up to date in the sense that they
+should work if you have the older VC++ with Visual Studio 6
+but the distributed .dsp and .dsw files will only be of use with 
+older version of Visual Studio.
+
+In most cases (unless you are building in Cygwin) the preferred way 
+to build GNU Go on Windows platforms is to use CMake. CMake
+understands about many versions of Visual C/Visual Studio, and will
+generate project/solution files for the tools installed on your
+system. So even if you have Visual Studio 6 you may use CMake
+and dispense with the distributed .dsp and .dsw files.
+
+@subsection Building with Visual Studio project files
+
+Before you compile the GNU Go source, you need to run CMake first, to 
+generate the build files you'll give to Visual Studio.
+
+From the cmd.exe command prompt, CD into the GNU Go source directory. 
+To confirm you're in the right place, you should see the file 
+'CMakeLists.txt' in the top-level directory of the GNU Go code (as well 
+as others in lower subdirectories).
+
+Direct CMake to generate the new Visual Studio build files by typing:
+
+@example
+    cmake CMakeLists.txt
+@end example
+
+Compile the code by invoking the newly-created Solution file:
+
+@example
+    vcbuild GNUGo.sln
+@end example
+
+This will take a few moments, as CMake generates 4 debug/retail targets:
+
+@example
+    debug
+    release
+    minsizerel
+    relwithdebinfo
+@end example
+
+For each of these targets, Visual Studio is generating a version of 
+gnugo.exe:
+
+@example
+    interface\debug\gnugo.exe
+    interface\release\gnugo.exe
+    interface\minsizerel\gnugo.exe
+    interface\relwithdebinfo\gnugo.exe
+@end example
+
+Additionally, there is an 'Install' target available, that will copy the 
+the gnugo.exe into the %ProgramFiles% directory. To do this, type:
+
+@example
+    vcbuild INSTALL.vcproj
+@end example
+
+This should result in copying GNU/Go into:
+
+@example
+    "%ProgramFiles%\GNUGo\bin\gnugo.exe" --options
+@end example
+
+In addition to command line use, CMake also has a GUI version. Users of 
+the Visual Studio GUI might prefer to use that.
+
+@subsection Building with Nmake makefiles
+
+GNU Go will also build using NMake makefiles. Optionally, instead of 
+Visual Studio project/solution files, you may direct CMake to generate 
+NMake makefiles. To generate the makefiles:
+
+@example
+    cmake -G "NMake Makefiles" CMakeLists.txt
+@end example
+
+The default rule for the makefile is 'all'. Use the 'help' rule to show 
+a list of available targets.
+
+@example
+    nmake -f Makefile help
+@end example
+
+To compile GNU Go:
+
+@example
+    nmake -f Makefil, all
+@end example
+
+One sysand 2009 tems, GNU GO may fail to build when using NMake makefiles. 
+only fails the first time run, run NMake again with the 'clean all' 
+targets, and it will compile the second and subsequent times.
+
+@example
+    nmake -f Makefile clean all
+@end example
+
+Which will successfully generate a gnugo.exe.
+
+@example
+    interface\gnugo.exe --options
+@end example
+
+@subsection Building with MinGW Makefiles
+
+GNU Go can be built on Windows systems using MinGW.
+
+This development environment uses: the GCC compiler (gcc.exe, not 
+cl.exe), the Microsoft C runtime libraries (MSCRT, not GLibC), the GNU 
+Make build tool (@code{mingw32-make.exe}, not NMake), all from the Windows 
+shell (@code{cmd.exe}, not sh/bash).
+
+For CMake to work, in addition to the base MinGW installation, the C++ 
+compiler (g++.exe) and GNU Make (mingw32-make.exe) need to be installed. 
+This was tested using GCC v3, not the experimental v4. To debug, use 
+GDB, as the GCC-generated symbols won't work with NTSD/Windbg/Visual Studio.
+
+To create the makfiles, run CMake with the MinGW generator option:
+
+@example
+    cmake -G "MinGW Makefiles" CMakeLists.txt
+@end example
+
+To build GNU Go, from a cmd.exe shell, run GNU Make (against the 
+newly-created 'Makefile' and it's default 'all' target):
+
+@example
+    mingw32-make
+    ..\interface\gnugo.exe --options
+@end example
+
+@subsection Building with MSYS makefiles (MinGW)
+
+GNU Go can be built on Windows systems using MSYS.
+
+This development environment uses: the GCC compiler (gcc.exe, not 
+cl.exe), the Microsoft C runtime libraries (MSCRT, not GLibC), the GNU 
+Make build tool (make, not NMake), all from the GNU Bash (sh.exe, not 
+cmd.exe).
+
+To create the makfiles, run CMake with the MSYS generator option:
+
+@example
+    cmake -G "MSYS Makefiles" CMakeLists.txt
+@end example
+
+Start MSYS's Bash shell, either clicking on a shortcut on from the 
+command line:
+
+@example
+    cd /d c:\msys\1.0
+    msys.bat
+@end example
+
+To build GNU Go, from a Bash shell, run GNU Make (against the 
+newly-created 'Makefile' and it's default 'all' target):
+
+@example
+    make
+    ../interface/gnugo.exe --options
+@end example
+
+To debug, use GDB, as the GCC-generated symbols won't work with 
+NTSD/Windbg/Visual Studio.
+
+@subsection Building on cygwin
+
+With Cygwin, you should be able to 
+
+@example
+  tar zxvf gnugo-3.8.tar.gz
+  cd gnugo-3.8
+  env CC='gcc -mno-cygwin' ./configure
+  make
+@end example
+
+@subsection Testing on Windows:
+
+@file{regression/regress.cmd} is a simplified cmd.exe-centric port of the main
+gnugo Unix shell script regress.sh. It can be used to help verify that the
+generated binary might be operational. Read the script's comment header for
+more information. For access to the full GNU Go tests, use Unix, not Windows.
+
+To test:
+
+@example
+    cd regression
+    regress.cmd ..\interface\gnugo.exe
+@end example
+
+@node Macintosh
+@section Macintosh
+
+If you have Mac OS X you can build GNU Go using Apple's compiler, 
+which is derived from GCC. You will need Xcode.
+
+One issue is that the configure test for socket support is
+too conservative. On OS/X, the configure test fails, but
+actually socket support exists. So if you want to be able
+to connect to the engine through tcp/ip (using gtp) you
+may @command{configure --enable-socket-support}.  There
+will be an error message but you may build the engine
+and socket support should work.
+
+

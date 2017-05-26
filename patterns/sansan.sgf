@@ -1,0 +1,40 @@
+This is GNU Go, a Go program. Contact gnugo@gnu.org, or see
+http://www.gnu.org/software/gnugo/ for more information.
+
+Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,
+2008 and 2009 by Software Foundation.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation - version 3 or
+at your option any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License in file COPYING for more details.
+
+You should have received a copy of the GNU General Public
+License along with this program; if not, write to the Free
+Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+Boston, MA 02111, USA.
+
+(;GM[1]FF[3]
+SZ[19]HA[0]
+GN[Sansan joseki database]
+;B[qc]
+(;W[pd]MA[ki]C[j
+];B[qd]MA[of];W[pe]MA[mg];B[ob]MA[mg];W[md]
+MA[lg]C[:-,shape(10)
+];B[rf];W[pg]MA[ki])
+
+(;W[pf];B[nc]MA[lf])
+
+(;W[pc];B[pd]MA[mg]C[U
+];W[qd];B[qe]MA[mg]C[U
+];W[rd];B[oc]MA[mg]C[U
+]
+;W[pb];B[oe]MA[mg]C[U
+])
+
+)

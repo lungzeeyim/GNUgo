@@ -1,0 +1,79 @@
+(;GM[1]FF[4]
+SZ[19]KM[7.50]
+PW[gopp]WR[12k]
+PB[GNU]BR[13k]
+PC[The Kiseido Go Server (KGS) at http://kgs.kiseido.com/]
+DT[2005-12-04]AP[CGoban:2]
+EV[Ninth KGS Computer Go Tournament - Formal division]RE[W+4.50]
+TM[3480]RU[Chinese]
+C[gopp [12k\]: GTP Engine for gopp (white): Go++ version 5 (experimental version)
+GNU [13k\]: GTP Engine for GNU (black): GNU Go version 3.7.7
+]
+CA[UTF-8]RO[3]ST[2]
+;B[pd];W[dq];B[pp];W[dd];B[co];W[dl];B[eo];W[fp];B[fo];W[gp];B[dj]
+;W[cg];B[fc];W[nq];B[pn];W[pr];B[lq];W[qq];B[oq];W[or];B[np];W[ro]
+;B[nr];W[nc];B[iq];W[cp];B[lc];W[qc];B[pc];W[qd];B[pe];W[pb];B[ob]
+;W[qb];B[oc];W[qf];B[nd];W[qm];B[ic];W[eb];B[ek];W[bo];B[oh];W[cn]
+;B[qh];W[qj];B[qe];W[re];B[fb];W[ec];B[nk];W[ho];B[gr];W[fr];B[gf]
+;W[kj];B[kh];W[el];B[fm];W[hj];B[fl];W[cj];B[ci];W[jo];B[mq];W[jl]
+;B[do];W[gk];B[ck];W[cl];B[bj];W[fk]C[tesuji [-\]: ?
+tesuji [-\]: =(
+]
+;B[bl];W[hr]C[medical [9k?\]: hee =) gnu messed up
+tesuji [-\]: both did now
+]
+;B[cm]C[tesuji [-\]: b7
+tesuji [-\]: or that
+];W[bn]
+C[medical [9k?\]: hoh, yead
+medical [9k?\]: d
+medical [9k?\]: damn. h =)
+]
+;B[dm]C[tesuji [-\]: oh well, mistakes cancel ;)
+];W[pg];B[ph];W[og]
+;B[ir];W[lo];B[hq];W[ng];B[mi];W[mf];B[lk];W[fa];B[ga];W[ea];B[mn]
+;W[fd];B[gc];W[le];B[bh];W[bg];B[eg];W[gd];B[hc];W[pm];B[df];W[cd]
+;B[ei];W[qn];B[ag];W[be];B[fs];W[er];B[ri];W[rj];B[hm];W[km];B[af]
+;W[oj];B[nh];W[on];B[ml];W[ji];B[po];W[nm];B[mm];W[jh];B[mg];W[ne]
+;B[md];W[mo];B[lg];W[ke];B[no];W[nn];B[rg];W[rf];B[lj];W[dn];B[em]
+;W[kc];B[kb];W[jc];B[jb];W[dh];B[fi];W[si];B[sh];W[sj];B[nj];W[oi]
+;B[lh];W[ki];B[jg];W[ig];B[jf];W[kf];B[kg]
+C[Zark [5k\]: m12 was odd :)
+];W[je];B[if];W[eh];B[ie];W[hg];B[fh]
+;W[dg];B[ee];W[fe];B[ff];W[ed];B[ol];W[om];B[pl];W[gi];B[qi];W[ok]
+;B[nl];W[es];B[pj];W[ql];B[pk];W[qk];B[gs];W[am]
+C[troll [2k\]: 9p sente =)
+];B[gq];W[al];B[ak];W[bm];B[bk];W[gh]
+;B[kp];W[ko];B[jp];W[im];B[hl];W[il];B[hk];W[ik];B[fj];W[gj];B[hn]
+;W[en];B[go];W[fn];B[hp];W[io];B[gn];W[gl];B[gm]C[wwwzza [1d\]: uuh
+]
+;W[in];B[fq];W[ep];B[dk];W[bq];B[eq];W[dr];B[dp];W[ns];B[ms]
+C[troll [2k\]: now close
+];W[os];B[pq];W[qr];B[bf]
+C[wwwzza [1d\]: seems b is gaining in endgame :)
+];W[cf];B[me]
+C[Uriel [-\]: d2 oh man :)
+];W[lf];B[ld];W[nf];B[ae];W[ad];B[ah]
+;W[bc];B[pa];W[qa];B[oa];W[rd];B[qp]
+C[troll [2k\]: gnu endgame is strong
+];W[rp];B[oo];W[qg];B[kk];W[jk]
+;B[ln]C[wwwzza [1d\]: id rather say w is playing to submissive now :)
+]
+;W[kn];B[di];W[de];B[ef];W[oe];B[od];W[pf];B[sf];W[se];B[hf];W[lr]
+;B[mr];W[sg];B[rh];W[sf];B[gg];W[qo];B[kd];W[jd];B[li];W[ha];B[gb]
+;W[hd];B[id];W[ge];B[ch];W[ce];B[lp];W[kl];B[mp];W[ll];B[lm];W[ip]
+;B[hh];W[ih];B[he];W[];B[dl];W[];B[fp]C[wwwzza [1d\]: oh
+];W[];B[ib]
+C[wwwzza [1d\]: chinese rules
+];W[];B[lb]
+C[troll [2k\]: J10 first maybe
+];W[];B[]TB[ha][ia][ja][ka][la][ma]
+[na][hb][mb][nb][mc][nc][fg][mh][ai][bi][ni][oi][pi][aj][cj][ej][mj]
+[oj][mk][ok][cl][el][ep][gp][op][jq][kq][nq][hr][jr][kr][lr][hs][is]
+[js][ks][ls]TW[aa][ba][ca][da][ra][sa][ab][bb][cb][db][rb][sb][ac]
+[cc][dc][rc][sc][bd][sd][of][hh][hi][ii][ij][jj][rk][sk][rl][sl][jm]
+[rm][sm][an][jn][rn][sn][ao][so][ap][bp][sp][aq][cq][rq][sq][ar][br]
+[cr][rr][sr][as][bs][cs][ds][ps][qs][rs][ss]C[Uriel [-\]: ugh.
+troll [2k\]: w 4 corners
+]
+)

@@ -1,0 +1,732 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# This is GNU Go, a Go program. Contact gnugo@gnu.org, or see       #
+# http://www.gnu.org/software/gnugo/ for more information.          #
+#                                                                   #
+# Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,   #
+# 2008 and 2009 by the Free Software Foundation.                    #
+#                                                                   #
+# This program is free software; you can redistribute it and/or     #
+# modify it under the terms of the GNU General Public License       #
+# as published by the Free Software Foundation - version 3,         #
+# or (at your option) any later version.                            #
+#                                                                   #
+# This program is distributed in the hope that it will be           #
+# useful, but WITHOUT ANY WARRANTY; without even the implied        #
+# warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR           #
+# PURPOSE.  See the GNU General Public License in file COPYING      #
+# for more details.                                                 #
+#                                                                   #
+# You should have received a copy of the GNU General Public         #
+# License along with this program; if not, write to the Free        #
+# Software Foundation, Inc., 51 Franklin Street, Fifth Floor,       #
+# Boston, MA 02111, USA.                                            #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+# Database of connection patterns.
+#
+#  ? - don't care
+#  . - empty
+#  X - opposite color of O
+#  O - color of dragon looking for connection
+#  x - X or empty
+#  o - O or empty
+#  * - cutting point in the O formation, an X move here must be
+#      tactically safe
+#  ! - inhibit connection, eye space points for O are turned marginal
+#
+###################################
+#
+# Classification
+#
+# The connection database contains patterns of three different classes,
+# which also are matched separately.
+#
+#  B - Indicate cutting points and inhibit connections.
+#  C - Amalgamate worms into dragons.
+#
+# Additionally there are a few acceptance modifiers. 
+#
+#  s - Accept even if the pattern includes tactically unsafe strings
+#
+###################################
+#
+# Organisation
+#
+# The connection database is organized into a number of different
+# categories and ordered so that more specific patterns are matched
+# before more general ones, since evaluating the constraints of the
+# latter usually is expensive.
+#
+#  EB    - Edge B patterns
+#  CB    - Center B patterns
+#  EC    - Edge C patterns
+#  CC    - Center C patterns
+#  Lunch - patterns that invalidate lunches, matched with I patterns
+#
+###################################
+
+
+attribute_map none
+
+goal_elements none
+# callback_data is dependent on pattern class in this database
+
+
+########################
+#
+# B patterns on the edge
+#
+########################
+
+callback_data X!
+
+
+##########################
+#
+# B patterns in the center
+#
+##########################
+
+callback_data X!
+
+
+Pattern CB1b
+
+?O.          fragile double connection 
+X*O
+?O.
+
+:8,B
+
+?b.
+X*O
+?a.
+
+;!xplay_connect(*,a,b)
+
+
+Pattern CB2b
+
+?O.
+?..          fragile double connection 
+X*O
+?O.
+
+:8,B
+
+?b.
+?..
+X*O
+?a.
+
+;!xplay_connect(*,a,b)
+
+
+Pattern CB3b
+
+O!O
+.*X
+.O?
+
+:8,B
+
+O!a
+.*X
+.b?
+
+;!xplay_connect(*,a,b)
+
+
+Pattern CB3c
+
+O!O
+.*.
+.OX
+
+:8,B
+
+c!a
+.*.
+.bX
+
+;!oplay_disconnect(a,c)
+;&& !oplay_disconnect(c,b)
+;&& !xplay_connect(*,a,b)
+
+
+Pattern CB7
+# This pattern is used to find potential cutting stones as defined by
+# the field cutstone2 in the worm data. The helper returns 0 so the
+# pattern doesn't fire as a B pattern.
+
+XO
+O*
+
+:\,B,cutstone2_helper
+
+AO
+O*
+
+;attack(A)
+
+
+Pattern CB11b
+
+?OX?
+O!OX
+?*!O
+??O?
+
+:8,B
+
+?bX?
+O!OX
+?*!a
+??O?
+
+;!xplay_connect(*,a,b)
+
+
+Pattern CB15b
+# tm New Pattern (3.1.23)  (see global:17, )
+#   careful not to break trevord:730
+# FIXME:  Need to use amalgamate_most_valuable helper.
+# xplay_disconnect helper also might be useful here.
+
+?*?   save cutting stone.
+OXO
+!O!
+
+:8,B
+
+?*?
+aXb
+!O!
+
+;!xplay_connect(*,a,b)
+
+
+Pattern CB16
+# gf Revised constraint. (3.3.13)
+
+?O
+x*          fragile double connection 
+XO
+O!
+
+:8,B
+
+?a
+x*
+XO
+b!
+
+;xplay_connect(a,b) && !xplay_connect(*,a,b)
+
+
+Pattern CB17
+
+O!O
+!*?        fragile double connection 
+O??
+
+:\,B
+
+O!a
+!*?
+b??
+
+;!xplay_connect(*,a,b)
+
+
+Pattern CB18
+
+?X?
+X.X        workaround for ko contingent connection
+OXO
+?O*
+
+:8,B
+
+?X?
+XbX
+OAd
+?c*
+
+;xplay_attack(*,A)<WIN && !xplay_connect(*,?,b,c,d)
+
+
+########################
+#
+# C patterns on the edge
+#
+########################
+
+# Static connections need almost everything
+callback_data .Oxo,!
+
+
+Pattern EC1
+
+??oo??
+?....?
+oO..Oo
+o....o
+o....o
+------
+
+:|,C
+
+
+Pattern EC1b
+
+??....??
+o.O..O.o
+o......o
+o......o
+--------
+
+:|,C
+
+
+Pattern EC3a
+
+o...o
+oO.Oo
+o...o
+o...o
+o...o
+-----
+
+:8,C
+
+o...o
+oO.Oo
+o...o
+oa..o
+o...o
+-----
+
+;omoyo(a)
+
+
+##########################
+#
+# C patterns in the center
+#
+##############################################
+#
+# CC1xx - patterns without reading constraints
+#
+##############################################
+
+# Static connections need almost everything
+callback_data .Oxo,!
+
+
+Pattern CC101
+
+.O
+O.
+
+:X,C
+
+aO
+Ob
+
+;!xcut(a) && !xcut(b)
+
+
+Pattern CC103
+
+?oooo?
+o....o
+oO..Oo
+o....o
+?oooo?
+
+:+,C
+
+
+Pattern CC104
+
+?ooo??
+o...oo
+oO...o
+o...Oo
+oo...o
+??ooo?
+
+:8,C
+
+
+Pattern CC105
+
+?ooo?
+.....
+.O.O.
+.....
+?ooo?
+
+:+,C
+
+
+Pattern CC106
+
+.O.O.
+o...o
+o...o
+o.O.o
+
+:8,C
+
+
+Pattern CC107
+
+.O.O.
+o...o
+o...o
+.O.O.
+
+:8,C
+
+
+Pattern CC108
+
+O.O
+...
+...
+.O.
+
+:|,C
+
+OaO
+bcd
+efg
+.O.
+
+;omoyo(a) && oarea(c) && oarea(f)
+;&& ((omoyo(b) + omoyo(c) + omoyo(d) + omoyo(e) + omoyo(f) +omoyo(g)) >= 3)
+
+
+Pattern CC109
+# gf Revised constraint. (3.3.3)
+
+O.oo
+..oo
+..oo
+.Ooo
+
+:8,C
+
+c.oo
+.aoo
+.boo
+.doo
+
+;omoyo(a) && omoyo(b) && lib(c)>=4 && lib(d)>=4
+
+
+##########################################################
+#
+# CC2xx - patterns with reasonably inexpensive constraints
+#
+##########################################################
+
+#############################################
+#
+# CC3xx - patterns with expensive constraints
+#
+#############################################
+#
+# CC30x - one space jump connections
+#
+####################################
+
+###########################
+#
+# CC31x - keima connections
+#
+###########################
+
+####################################
+#
+# CC32x - two space jump connections
+#
+####################################
+
+############################
+#
+# CC33x - ogeima connections
+#
+############################
+
+####################################################################
+#
+# CC4xx -  fragile double connections
+#
+# FIXME: These shouldn't be matched until all other amalgamation has
+# been completed.
+#
+####################################################################
+
+Pattern CC401
+# Do amalgamate one of the two possible connections. We guess that
+# the larger of the two dragons is the one we most want to keep in
+# case of a cut.
+
+?O.          fragile double connection 
+X.O
+?O.
+
+:8,-
+
+?d.
+Xac
+?b.
+
+;xcut(a)
+
+>amalgamate_most_valuable_helper(b,c,d);
+
+
+Pattern CC402
+# Do amalgamate one of the two possible connections. We guess that
+# the larger of the two dragons is the one we most want to keep in
+# case of a cut.
+
+?O.
+?..          fragile double connection 
+X.O
+?O.
+
+:8,-
+
+?gd
+?bc
+Xaf
+?e.
+
+;xcut(a)
+
+>if (!xplay_attack_either(b,c,d,b,d) || !xplay_attack_either(c,b,a,c,a))
+>  amalgamate(e,f);
+>else
+>  amalgamate_most_valuable_helper(e,f,g);
+
+
+####################################################################
+#
+# CC5xx - experimental connection patterns
+#
+####################################################################
+#
+# Note about patterns CC501, CC502, CC502b, CC511
+#
+# In theory, these patterns go against the connection policy that the
+# involved strings must be tactically stable (not capturable) and
+# consequently, they should not be needed at all. In practice though,
+# problems arise with the optics/owl analysis when such strings aren't
+# amalgamated. An example (see owl:50)
+#
+# +------
+# |...X.O
+# |XXX.XO
+# |.OOXXO
+# |O.OOOO
+#
+# In the absence of the mentioned patterns, the topmost X stone would
+# NOT be amalgamated with the others, because all attempts at
+# defending these kosumi connections result in a tactical capture of
+# the whole string, thus a successful cut.
+#
+# As a consequence, the owl code would be run against separate targets,
+# and in the above case, it would even fail to find a way to kill the
+# topmost X stone (the lack of context is then responsible for the 
+# optics/owl code not being able to return vital points)
+#
+####################################################################
+
+
+Pattern CC501
+# Connect even if stones not tactically safe.
+
+xO
+O.
+
+:\,sC
+
+xO
+Oc
+
+;x_suicide(c)
+
+
+Pattern CC502
+# Connect even if stones not tactically safe.
+
+XO
+O.
+
+:\,sC
+
+Xb
+ac
+
+;lib(a)>1 && lib(b)>1 && !xcut(c) && xlib(c)==1 && xplay_attack(c,c)==WIN
+
+
+Pattern CC502b
+# Connect even if stones not tactically safe.
+
+.O
+O.
+
+:\,sC
+
+db
+ac
+
+;lib(a)>1 && lib(b)>1 && !xcut(c) && !xcut(d)
+;&& xlib(c)==1 && xplay_attack(c,c)
+
+
+Pattern CC503
+
+O
+.
+O
+
+:+,C
+
+c
+a
+b
+
+;!xcut(a) && !disconnect_helper(b,c)
+
+
+Pattern CC504
+
+XO
+O.
+
+:\,C
+
+Xb
+ca
+
+;!xcut(a) && !disconnect_helper(b,c)
+
+
+Pattern CC505
+
+XO
+OX
+
+:X,C
+
+Bc
+dA
+
+;((attack(A) && !distrust_tactics_helper(A))
+; || (attack(B) && !distrust_tactics_helper(B)))
+;&& !disconnect_helper(c,d)
+
+
+Pattern CC506
+
+O
+.
+.
+O
+
+:+,C
+
+c
+a
+b
+d
+
+;!xcut(a) && !xcut(b) && !disconnect_helper(c,d)
+
+
+Pattern CC506b
+
+O.
+Xo
+..
+O.
+
+:8,C
+
+c.
+Eo
+ab
+d.
+
+;!xcut(a) && !xcut(b) && lib(E)<=2 && !disconnect_helper(c,d)
+
+
+Pattern CC507
+
+Ox
+..
+xO
+
+:O,C
+
+cx
+ab
+xd
+
+;!xcut(a) && !xcut(b) && !disconnect_helper(c,d)
+
+
+Pattern CC508
+
+O?
+.X
+xO
+
+:8,C
+
+b?
+aX
+xc
+
+;!xcut(a) && !disconnect_helper(b,c)
+
+
+Pattern CC509
+
+Ox
+..
+..
+xO
+
+:O,C
+
+ex
+ab
+cd
+xf
+
+;!xcut(a) && !xcut(b) && !xcut(c) && !xcut(d) && !disconnect_helper(e,f)
+
+
+Pattern CC511
+# Connect even if stones not tactically safe.
+
+.O
+O.
+
+:\,sC
+
+db
+ac
+
+;attack(a) && attack(b) && !xcut(c) && !xcut(d)
+
+
+# END OF FILE
